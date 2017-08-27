@@ -1,0 +1,10 @@
+Package: com.noisyflake.smartlowpower
+Name: SmartLowPower
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Automate the usage of Low Power mode
+Homepage: http://www.noisyflake.com
+Maintainer: NoisyFlake <contact@noisyflake.com>
+Author: NoisyFlake <contact@noisyflake.com>
+Section: Tweaks
