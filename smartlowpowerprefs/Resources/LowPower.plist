@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>footerText</key>  			<string>Enable when the device is locked.</string>
+		</dict>
+		<dict>
+			<key>cell</key>							<string>PSSwitchCell</string>
+			<key>default</key>					<false/>
+			<key>defaults</key>					<string>com.noisyflake.smartlowpowerprefs</string>
+			<key>key</key>							<string>lpmLocked</string>
+			<key>label</key>						<string>Device Locked</string>
+			<key>PostNotification</key> <string>com.noisyflake.smartlowpowerprefs/prefsupdated</string>
+		</dict>
+
+		<dict>
+			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>footerText</key>  			<string>Enable when the battery reaches a certain level. </string>
+		</dict>
+		<dict>
+			<key>cell</key>							<string>PSSwitchCell</string>
+			<key>default</key>					<true/>
+			<key>defaults</key>					<string>com.noisyflake.smartlowpowerprefs</string>
+			<key>key</key>							<string>lpmBattery</string>
+			<key>label</key>						<string>Battery Level</string>
+			<key>PostNotification</key> <string>com.noisyflake.smartlowpowerprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key>							<string>PSSwitchCell</string>
+			<key>default</key>					<false/>
+			<key>defaults</key>					<string>com.noisyflake.smartlowpowerprefs</string>
+			<key>key</key>							<string>lpmBatteryLocked</string>
+			<key>label</key>						<string>Only when locked</string>
+			<key>PostNotification</key> <string>com.noisyflake.smartlowpowerprefs/prefsupdated</string>
+		</dict>
+		<dict>
+			<key>cell</key> 						<string>PSEditTextCell</string>
+			<key>default</key> 					<string>20</string>
+			<key>defaults</key> 				<string>com.noisyflake.smartlowpowerprefs</string>
+			<key>isNumeric</key> 				<true/>
+			<key>key</key> 							<string>lpmBatteryLevel</string>
+			<key>label</key> 						<string>Percent:</string>
+			<key>PostNotification</key> <string>com.noisyflake.smartlowpowerprefs/prefsupdated</string>
+		</dict>
+		<dict>
+      <key>cell</key>             <string>PSButtonCell</string>
+      <key>label</key>            <string>Save</string>
+      <key>action</key>           <string>save</string>
+    </dict>
+
+		<dict>
+			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>footerText</key>  			<string>Enable when the device is charging. Speeds up charging.</string>
+		</dict>
+		<dict>
+			<key>cell</key>							<string>PSSwitchCell</string>
+			<key>default</key>					<false/>
+			<key>defaults</key>					<string>com.noisyflake.smartlowpowerprefs</string>
+			<key>key</key>							<string>lpmCharging</string>
+			<key>label</key>						<string>Charging</string>
+			<key>PostNotification</key> <string>com.noisyflake.smartlowpowerprefs/prefsupdated</string>
+		</dict>
+
+	</array>
+	<key>title</key>
+	<string>Low Power Mode</string>
+</dict>
+</plist>

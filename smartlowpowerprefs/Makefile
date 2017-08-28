@@ -1,7 +1,7 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = SmartLowPowerPrefs
-SmartLowPowerPrefs_FILES = slpRootListController.m
+SmartLowPowerPrefs_FILES = $(wildcard *.m)
 SmartLowPowerPrefs_INSTALL_PATH = /Library/PreferenceBundles
 SmartLowPowerPrefs_FRAMEWORKS = UIKit
 SmartLowPowerPrefs_PRIVATE_FRAMEWORKS = Preferences

@@ -5,14 +5,16 @@
 @end
 
 @interface RadiosPreferences : NSObject
+- (BOOL)airplaneMode;
 - (void)setAirplaneMode:(BOOL)arg1;
 - (void)synchronize;
 @end
 
 @interface SBUIController : NSObject
-+(SBUIController *)sharedInstance;
-+(SBUIController *)sharedInstanceIfExists;
--(BOOL)isOnAC;
--(int)batteryCapacityAsPercentage;
--(void)updateSLP;
++ (SBUIController *)sharedInstance;
++ (SBUIController *)sharedInstanceIfExists;
+- (BOOL)isOnAC;
+- (int)batteryCapacityAsPercentage;
+- (void)updateLPM;
+- (void)updateAP;
 @end
