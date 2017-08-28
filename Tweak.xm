@@ -1,6 +1,6 @@
 #import "Tweak.h"
 
-static BOOL deviceLocked, isEnabled, lpmLocked, lpmBattery, lpmBatteryLocked, lpmCharging, apBattery, apBatteryLocked, apCharging;
+static BOOL deviceLocked, isEnabled, lpmLocked, lpmBattery, lpmBatteryLocked, lpmCharging, apBattery, apBatteryLocked, apCharging, alLPM, alCharging;
 static int lpmBatteryLevel, apBatteryLevel;
 
 %hook SpringBoard
@@ -22,6 +22,21 @@ static int lpmBatteryLevel, apBatteryLevel;
 }
 %end
 
+%hook SBBacklightController
+-(void)_autoLockTimerFired:(id)timer {
+	_CDBatterySaver *saver = [_CDBatterySaver batterySaver];
+	int lpm = [saver getPowerMode];
+
+	SBUIController *battery = [%c(SBUIController) sharedInstance];
+	BOOL deviceCharging = [battery isOnAC];
+
+	if (alLPM && lpm == 1) return;
+	if (alCharging && deviceCharging) return;
+
+	%orig(timer);
+}
+%end
+
 
 %hook SBUIController
 
@@ -33,8 +48,6 @@ static int lpmBatteryLevel, apBatteryLevel;
 	SBUIController *battery = [%c(SBUIController) sharedInstance];
 	[battery updateLPM];
 	[battery updateAP];
-
-
 }
 
 %new
@@ -148,6 +161,9 @@ static void loadPrefs() {
 		apBatteryLevel = [[prefs objectForKey:@"apBatteryLevel"] integerValue];
 		apBatteryLocked = ( [prefs objectForKey:@"apBatteryLocked"] ? [[prefs objectForKey:@"apBatteryLocked"] boolValue] : NO );
 		apCharging = ( [prefs objectForKey:@"apCharging"] ? [[prefs objectForKey:@"apCharging"] boolValue] : NO );
+
+		alLPM = ( [prefs objectForKey:@"alLPM"] ? [[prefs objectForKey:@"alLPM"] boolValue] : NO );
+		alCharging = ( [prefs objectForKey:@"alCharging"] ? [[prefs objectForKey:@"alCharging"] boolValue] : NO );
 	}
 
 	[prefs release];

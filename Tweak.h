@@ -18,3 +18,7 @@
 - (void)updateLPM;
 - (void)updateAP;
 @end
+
+@interface SBBacklightController : NSObject
+- (void)_autoLockTimerFired:(id)timer;
+@end

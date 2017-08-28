@@ -5,6 +5,11 @@
 	<key>items</key>
 	<array>
 		<dict>
+			<key>cell</key>						<string>PSGroupCell</string>
+			<key>footerCellClass</key>			<string>BannerCell</string>
+ 		</dict>
+
+ 		<dict>
 			<key>cell</key> 						<string>PSGroupCell</string>
 		</dict>
 		<dict>
@@ -18,6 +23,7 @@
 
 		<dict>
 			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>label</key> 						<string>Activation Settings</string>
 		</dict>
 		<dict>
 			<key>cell</key> 									<string>PSLinkCell</string>
@@ -32,6 +38,24 @@
 			<key>isController</key> 					<true/>
 			<key>overridePrincipalClass</key> <true/>
 			<key>label</key> 									<string>Airplane Mode</string>
+		</dict>
+
+		<dict>
+			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>label</key> 						<string>Extras</string>
+		</dict>
+		<dict>
+			<key>cell</key> 									<string>PSLinkCell</string>
+			<key>detail</key> 								<string>slpAutoLockListController</string>
+			<key>isController</key> 					<true/>
+			<key>overridePrincipalClass</key> <true/>
+			<key>label</key> 									<string>Auto-Lock</string>
+		</dict>
+
+		<dict>
+			<key>cell</key> 						<string>PSGroupCell</string>
+			<key>footerText</key> 			<string>Version 1.0.0</string>
+			<key>footerAlignment</key> 	<string>1</string>
 		</dict>
 
 

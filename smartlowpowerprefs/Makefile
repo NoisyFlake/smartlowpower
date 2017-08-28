@@ -3,7 +3,7 @@ include $(THEOS)/makefiles/common.mk
 BUNDLE_NAME = SmartLowPowerPrefs
 SmartLowPowerPrefs_FILES = $(wildcard *.m)
 SmartLowPowerPrefs_INSTALL_PATH = /Library/PreferenceBundles
-SmartLowPowerPrefs_FRAMEWORKS = UIKit
+SmartLowPowerPrefs_FRAMEWORKS = CoreGraphics UIKit
 SmartLowPowerPrefs_PRIVATE_FRAMEWORKS = Preferences
 
 include $(THEOS_MAKE_PATH)/bundle.mk
