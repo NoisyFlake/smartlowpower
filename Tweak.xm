@@ -5,78 +5,83 @@ static int lpmBatteryLevel;
 
 %hook SpringBoard
 -(void)frontDisplayDidChange:(id)newDisplay {
-  %orig(newDisplay);
+	%orig(newDisplay);
 
-  if (!isEnabled) return;
-
-  _CDBatterySaver *saver = [_CDBatterySaver batterySaver];
-  int lpm = [saver getPowerMode];
-
-  SBUIController *battery = [%c(SBUIController) sharedInstance];
-  int batteryLevel = [battery batteryCapacityAsPercentage];
-  BOOL isCharging = [battery isOnAC];
+	if (!isEnabled) return;
 
 	if ([newDisplay isKindOfClass:%c(SBDashBoardViewController)] ||
 		[newDisplay isKindOfClass:%c(SBLockScreenViewController)]) {
-		/* Device is now locked.
-		   Activate LPM when:
-		   - LPMLocked = ON
-		   - LPMBattery = ON & LPMBatteryLock = ON & BatteryLevel <= LPMBatteryLevel
-		*/
-		if (lpmLocked || (lpmBattery && lpmBatteryLocked && batteryLevel <= lpmBatteryLevel)) {
-			if (lpm == 0) [saver setMode:1];
-		}
+		deviceLocked = YES;
 	} else {
-		/* Device is now unlocked.
-		   Deactivate LPM when:
-		   - LPMLocked = ON
-		   - LPMBattery = ON & LPMBatteryLock = ON
-		   Exceptions:
-		   - LPMCharging = ON & Device is charging
-		   - LPMLocked = ON & LPMBattery = ON & LPMBatteryLocked = OFF & BatteryLevel <= LPMBatteryLevel
-		   ---- Basically means ignore LPMLocked when LPMBattery would cause LPM activation
-		*/
-		if (lpmLocked || (lpmBattery && lpmBatteryLocked)) {
-			if ((lpmLocked && lpmBattery && !lpmBatteryLocked && batteryLevel <= lpmBatteryLevel) ||
-					(lpmCharging && isCharging)) return;
-
-			if (lpm == 1) [saver setMode:0];
-		}
+		deviceLocked = NO;
 	}
+
+	SBUIController *battery = [%c(SBUIController) sharedInstance];
+	[battery updateSLP];
 }
 %end
 
 
 %hook SBUIController
 
--(void)updateBatteryState:(id)arg1 {
+-(void)updateBatteryState:(id)state {
 	%orig;
 
 	if (!isEnabled) return;
 
-	 _CDBatterySaver *saver = [_CDBatterySaver batterySaver];
-  int lpm = [saver getPowerMode];
-
-  SBUIController *battery = [%c(SBUIController) sharedInstance];
-  int batteryLevel = [battery batteryCapacityAsPercentage];
-  BOOL isCharging = [battery isOnAC];
-
-  NSLog(@"Battery at: %d percent, LPM at %d percent", batteryLevel, lpmBatteryLevel);
-
-  if ((!lpmBatteryLocked && batteryLevel <= lpmBatteryLevel) || (lpmCharging && isCharging)) {
-  	if (lpm == 0) [saver setMode:1];
-	} else if ((!lpmBatteryLocked && batteryLevel > lpmBatteryLevel) && (!lpmCharging || (lpmCharging && !isCharging))) {
-		if (lpm == 1) [saver setMode:0];
-	}
-
-	// TODO: Set variable for on lockscreen and do everything else here.
-
+	SBUIController *battery = [%c(SBUIController) sharedInstance];
+	[battery updateSLP];
 
 	// RadiosPreferences *preferences = [[%c(RadiosPreferences) alloc] init];
- //  [preferences setAirplaneMode:YES];
- //  [preferences synchronize];
+ //	[preferences setAirplaneMode:YES];
+ //	[preferences synchronize];
 }
 
+%new
+-(void)updateSLP {
+
+	_CDBatterySaver *saver = [_CDBatterySaver batterySaver];
+	int lpm = [saver getPowerMode];
+
+	SBUIController *battery = [%c(SBUIController) sharedInstance];
+	int batteryLevel = [battery batteryCapacityAsPercentage];
+	BOOL deviceCharging = [battery isOnAC];
+
+	// ----- ENABLE LPM ----- //
+
+	if (lpmCharging && deviceCharging) {
+		if (lpm == 0) [saver setMode:1];
+		return;
+	}
+
+	if (lpmBattery && batteryLevel <= lpmBatteryLevel && (!lpmBatteryLocked || (lpmBatteryLocked && deviceLocked))) {
+		if (lpm == 0) [saver setMode:1];
+		return;
+	}
+
+	if (lpmLocked && deviceLocked) {
+		if (lpm == 0) [saver setMode:1];
+		return;
+	}
+
+	// ----- DISABLE LPM ----- //
+
+	if (lpmBattery && (batteryLevel > lpmBatteryLevel || (lpmBatteryLocked && !deviceLocked))) {
+		if (lpm == 1) [saver setMode:0];
+		return;
+	}
+
+	if (lpmLocked && !deviceLocked) {
+		if (lpm == 1) [saver setMode:0];
+		return;
+	}
+
+	if (lpmCharging && !deviceCharging) {
+		if (lpm == 1) [saver setMode:0];
+		return;
+	}
+
+}
 %end
 
 static void loadPrefs() {
@@ -92,6 +97,9 @@ static void loadPrefs() {
 	}
 
 	[prefs release];
+
+	SBUIController *battery = [%c(SBUIController) sharedInstanceIfExists];
+	[battery updateSLP];
 }
 
 %ctor {

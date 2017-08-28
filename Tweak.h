@@ -11,6 +11,8 @@
 
 @interface SBUIController : NSObject
 +(SBUIController *)sharedInstance;
++(SBUIController *)sharedInstanceIfExists;
 -(BOOL)isOnAC;
 -(int)batteryCapacityAsPercentage;
+-(void)updateSLP;
 @end
