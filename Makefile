@@ -1,4 +1,5 @@
 # PACKAGE_VERSION = $(THEOS_PACKAGE_BASE_VERSION)
+ARCHS = armv7 armv7s arm64
 SDKVERSION = 9.3
 SYSROOT = $(THEOS)/sdks/iPhoneOS9.3.sdk
 include $(THEOS)/makefiles/common.mk

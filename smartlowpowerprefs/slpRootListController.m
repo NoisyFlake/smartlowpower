@@ -36,6 +36,7 @@
 
 @interface BannerCell : PSTableCell {
 	UILabel *tweakName;
+	UILabel *version;
 }
 @end
 
@@ -46,7 +47,7 @@
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Banner" specifier:specifier];
 	if (self) {
 		CGFloat width = 320.0f;
-		CGRect frame = CGRectMake(0.0f, -20.0f, width, 60.0f);
+		CGRect frame = CGRectMake(0.0f, -25.0f, width, 60.0f);
 
 		tweakName = [[UILabel alloc] initWithFrame:frame];
 		[tweakName layoutIfNeeded];
@@ -59,12 +60,26 @@
 		tweakName.text = @"SmartLowPower";
 		tweakName.backgroundColor = [UIColor clearColor];
 		tweakName.textAlignment = NSTextAlignmentCenter;
+
+		CGRect frame2 = CGRectMake(0.0f, 10.0f, width, 60.0f);
+		version = [[UILabel alloc] initWithFrame:frame2];
+		version.numberOfLines = 1;
+		version.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+		version.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15.0f];
+		version.textColor = [UIColor colorWithRed:0.3f green:0.3f blue:0.3f alpha:1.0f];
+		version.shadowColor = [UIColor whiteColor];
+		version.shadowOffset = CGSizeMake(0.0f, 1.0f);
+		version.text = @"Version 1.0.0";
+		version.backgroundColor = [UIColor clearColor];
+		version.textAlignment = NSTextAlignmentCenter;
+
 		[self addSubview:tweakName];
+		[self addSubview:version];
 	}
     return self;
 }
 
 - (CGFloat)preferredHeightForWidth:(CGFloat)width {
-	return 75.0f;
+	return 100.0f;
 }
 @end

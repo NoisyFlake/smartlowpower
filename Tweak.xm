@@ -152,13 +152,13 @@ static void loadPrefs() {
 		isEnabled = ( [prefs objectForKey:@"tweakEnabled"] ? [[prefs objectForKey:@"tweakEnabled"] boolValue] : YES );
 
 		lpmLocked = ( [prefs objectForKey:@"lpmLocked"] ? [[prefs objectForKey:@"lpmLocked"] boolValue] : NO );
-		lpmBattery = ( [prefs objectForKey:@"lpmBattery"] ? [[prefs objectForKey:@"lpmBattery"] boolValue] : NO );
-		lpmBatteryLevel = [[prefs objectForKey:@"lpmBatteryLevel"] integerValue];
+		lpmBattery = ( [prefs objectForKey:@"lpmBattery"] ? [[prefs objectForKey:@"lpmBattery"] boolValue] : YES );
+		lpmBatteryLevel = ( [prefs objectForKey:@"lpmBatteryLevel"] ? [[prefs objectForKey:@"lpmBatteryLevel"] integerValue] : 20 );
 		lpmBatteryLocked = ( [prefs objectForKey:@"lpmBatteryLocked"] ? [[prefs objectForKey:@"lpmBatteryLocked"] boolValue] : NO );
 		lpmCharging = ( [prefs objectForKey:@"lpmCharging"] ? [[prefs objectForKey:@"lpmCharging"] boolValue] : NO );
 
 		apBattery = ( [prefs objectForKey:@"apBattery"] ? [[prefs objectForKey:@"apBattery"] boolValue] : NO );
-		apBatteryLevel = [[prefs objectForKey:@"apBatteryLevel"] integerValue];
+		apBatteryLevel = ( [prefs objectForKey:@"apBatteryLevel"] ? [[prefs objectForKey:@"apBatteryLevel"] integerValue] : 10 );
 		apBatteryLocked = ( [prefs objectForKey:@"apBatteryLocked"] ? [[prefs objectForKey:@"apBatteryLocked"] boolValue] : NO );
 		apCharging = ( [prefs objectForKey:@"apCharging"] ? [[prefs objectForKey:@"apCharging"] boolValue] : NO );
 
@@ -173,7 +173,18 @@ static void loadPrefs() {
 	[battery updateAP];
 }
 
+static void initPrefs() {
+	// Copy the default preferences file when the actual preference file doesn't exist
+	NSString *path = @"/User/Library/Preferences/com.noisyflake.smartlowpowerprefs.plist";
+	NSString *pathDefault = @"/Library/PreferenceBundles/SmartLowPowerPrefs.bundle/defaults.plist";
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if (![fileManager fileExistsAtPath:path]) {
+		[fileManager copyItemAtPath:pathDefault toPath:path error:nil];
+	}
+}
+
 %ctor {
 	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.noisyflake.smartlowpowerprefs/prefsupdated"), NULL, CFNotificationSuspensionBehaviorCoalesce);
+	initPrefs();
 	loadPrefs();
 }
