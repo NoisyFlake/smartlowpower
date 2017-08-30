@@ -32,7 +32,12 @@
     [self.view endEditing:YES];
 }
 
+-(void)paypal {
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XMF6DRETENHN8&lc=US"]];
+}
+
 @end
+
 
 @interface BannerCell : PSTableCell {
 	UILabel *tweakName;
