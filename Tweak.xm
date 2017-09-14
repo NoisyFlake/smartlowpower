@@ -168,9 +168,12 @@ static void loadPrefs() {
 
 	[prefs release];
 
-	SBUIController *battery = [%c(SBUIController) sharedInstanceIfExists];
-	[battery updateLPM];
-	[battery updateAP];
+	if (isEnabled) {
+		SBUIController *battery = [%c(SBUIController) sharedInstanceIfExists];
+		[battery updateLPM];
+		[battery updateAP];
+	}
+
 }
 
 static void initPrefs() {

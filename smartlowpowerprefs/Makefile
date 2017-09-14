@@ -1,3 +1,4 @@
+ARCHS = armv7 armv7s arm64
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = SmartLowPowerPrefs

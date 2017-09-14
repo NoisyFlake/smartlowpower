@@ -51,6 +51,13 @@
 			<key>overridePrincipalClass</key> <true/>
 			<key>label</key> 									<string>Auto-Lock</string>
 		</dict>
+		<dict>
+			<key>cell</key> 									<string>PSLinkCell</string>
+			<key>detail</key> 								<string>slpFlipSwitchListController</string>
+			<key>isController</key> 					<true/>
+			<key>overridePrincipalClass</key> <true/>
+			<key>label</key> 									<string>FlipSwitch</string>
+		</dict>
 
 		<dict>
 			<key>cell</key> 						<string>PSGroupCell</string>

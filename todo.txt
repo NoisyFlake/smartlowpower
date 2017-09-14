@@ -1,0 +1,10 @@
+v1.1
+- Auto-lock timer configurable
+- FlipSwitch toggle (option to turn LPM on when tweak disabled)
+
+v1.2
+- Block low battery alert
+- Only during specific times of the day
+
+v2
+- Customize what LP does (Background refresh / location services...)
