@@ -1,4 +1,5 @@
 #import "Tweak.h"
+#import "smartlowpowerfs/FSSwitchPanel.h"
 
 static BOOL deviceLocked, isEnabled, lpmLocked, lpmBattery, lpmBatteryLocked, lpmCharging, apBattery, apBatteryLocked, apCharging, alLPM, alCharging;
 static int lpmBatteryLevel, apBatteryLevel;
@@ -174,6 +175,9 @@ static void loadPrefs() {
 		[battery updateAP];
 	}
 
+	// Update switch state
+	FSSwitchPanel *fsp = [%c(FSSwitchPanel) sharedPanel];
+	[fsp stateDidChangeForSwitchIdentifier:@"com.noisyflake.smartlowpowerfs"];
 }
 
 static void initPrefs() {
